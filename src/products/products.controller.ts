@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Inject, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { PaginatinoDto } from 'src/common';
 import { PRODUCT_SERVICE } from 'src/config';
 
 @Controller('products')
@@ -16,8 +17,9 @@ export class ProductsController {
   }
 
   @Get()
-  findAllProducts(){
-    return this.productClient.send({cmd: 'find_all'}, { })
+  findAllProducts(@Query() paginatinoDto: PaginatinoDto){
+    return this.productClient.send({cmd: 'find_all'}, paginatinoDto)
+    // return this.productClient.send({cmd: 'find_all'}, { limit : 2 , page:2 })
   }
 
   @Get(':id')
